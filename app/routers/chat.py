@@ -33,7 +33,14 @@ def chat(payload: ChatInput, _auth: None = Depends(verify_api_key)):
         raise HTTPException(status_code=503, detail=str(exc))
     except Exception as exc:  # noqa: BLE001
         logger.exception("Chatbot failed")
-        raise HTTPException(status_code=500, detail=f"Chatbot failed: {exc}")
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                "We're currently experiencing a temporary issue with our AI service. "
+                "Please try again later. If the issue continues, contact our support "
+                "team for assistance. We apologize for the inconvenience."
+            ),
+        )
 
     return ChatResponse(
         mobile_number=payload.mobile_number,
